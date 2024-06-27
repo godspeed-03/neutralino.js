@@ -34,6 +34,9 @@ export function writeBinaryFile(path: string, data: ArrayBuffer): Promise<void> 
 };
 
 export function appendBinaryFile(path: string, data: ArrayBuffer): Promise<void> {
+    if (!(data instanceof ArrayBuffer)) {
+        return Promise.reject(new Error('Data must be an instance of ArrayBuffer'));
+    }
     return sendMessage('filesystem.appendBinaryFile', {
         path,
         data: arrayBufferToBase64(data)
